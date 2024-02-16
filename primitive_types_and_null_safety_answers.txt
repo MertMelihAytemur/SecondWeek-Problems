@@ -1,0 +1,190 @@
+SORU 1- val ile var arasındaki fark nedir?
+
+CEVAP:  val değişkenlerimiz read-only'dir. Yani sadece okuma işlemi yapabilirz. Bu değişkeninin değerini verdikten sonra tekrar düzeltemeyiz. 
+        Fakat var değişkenimiz hem read hem write özelliğine sahiptir.
+
+*********************************************************************
+SORU 2 - Bir var değişkeni val gibi davranmasını nasıl sağlayabiliriz val kelimesini kullanmadan? Bunu neden yapmak isteriz? Örnek bir senaryo verin.
+
+CEVAP:   var değişkenin val gibi davranmasını sağlamak için var değişkenimizin hemen altına private set tanımlaması yapabiliriz. Örneğin bir adet A classımız var. İçersinde
+         var userName : String = "Melih" diye bir değişken oluşturdunuz. Bir B classından A nesnesi oluşturduğunuzda val a = A() olarak a.userName = "Mert" olarak 
+         değiştirebilirsiniz. Fakat biz bu şekide set etmeyi önlemek isteyebilirz. Örneğin A classında bir method çağırılıdğında ancak bu değerin değişmesini isteyebiliriz.
+         A classında:
+       
+         var userName : String = "Melih"
+           private set
+
+         olarak değişikliğimizi yaptığımızda userName değişkeni yalnızca kendi classında değişiklik yapılabilir hale gelicektir. B classında bir a nesnesi ile değiştirmek  
+         istediğimizde bize izin vermeyecektir.
+       
+         Örneğin A classında bir servis isteği atılıyor ve cevap geliyor. Bu cevabı userName değişkenine atıyoruz. B classın'da ise sadece bu userName'i okuma işlemi
+         yapmak istiyoruz. Yani değişikliğe (set) kapatacağız. Bu senaryoda userName değişkenini set etmeye kapatmak işimize yarayacaktır. Daha ileri bir örnek olarak 
+         ViewModel classımızda bir live data tipinde değişken tuttuğumuzu varsayalım. Bu live data değişkenini ui tarafında sadece observe etmek istiyoruz fakat üzerinde
+         değişiklik yapmaya kapatmak istiyoruz.
+
+*********************************************************************
+SORU 3 - "Değişmez" (Immutable) ve "Salt Okunur" (ReadOnly) kavramlarını açıklayın. val değişkenler neden aslında "değişmez" değil de "salt okunur" olarak açıklanmalıdır?
+
+CEVAP:    Salt okunur" (read-only), bir değerin sadece bir kez atanabileceği ancak sonrasında değiştirilemeyeceği anlamına gelir.
+          "Değişmez"   (immutable) ise, bir nesnenin ya da değişkenin durumunun oluşturulduktan sonra hiçbir şekilde değiştirilemeyeceğini ifade eder.
+          Temel fark, read only özelliklerin kendilerinin değiştirilemeyeceği ancak işaret ettikleri nesnelerin mutable olabileceği (yani iç durumlarının değiştirilebileceği)
+          immutable nesnelerin ise hem kendilerinin hem de iç durumlarının değiştirilemez olmasıdır.
+         
+          Kotlin'de val değişkenler read only'dir. Çünkü val olarak tanımladığımız değişken eğer bir hesaplama sonucuna bağlıysa zaman içersinde değişebilir.
+
+*********************************************************************
+
+SORU 4 - "Tip Çıkarımı" (Type inference) kavramını açıklayın. Hangi durumlarda tip belirtmek kesin olarak gereklidir?
+
+CEVAP: "Tip Çıkarımı" (Type Inference), Kotlin gibi dillerde değişkenlerin veya ifadelerin türlerinin, 
+        açık bir şekilde belirtilmeden derleyici tarafından otomatik olarak tespit edilmesidir.
+       
+       Tip belirtmemiz gereken durumlara örnek:
+       -Nullable olabilecek değişkenler
+       -Fonksiyon parametreleri
+       -Servis isteği için gönderilecek parametre tipleri servis modeline uygun olması.
+
+**********************************************************************
+
+SORU 5 - Kotlin'de tüm değişkenlerin sınıf olarak bulunması, "ilkel tip" (primitive type) olmadıkları anlamına gelir mi? Arka planda neler oluyor?
+
+CEVAP: Kotlin'de, tüm değişkenler nesne olarak ele alınır, bu da onların bir sınıfın örneği oldukları anlamına gelir. Ancak, Kotlin'in JVM (Java Virtual Machine) üzerinde çalıştığı durumlarda, 
+       performansı artırmak için Kotlin, "primitive" tiplerle ilgili özel bir işleyişe sahiptir. 
+       Bu, Kotlin'in ilkel tipleri (Int, Float, Double gibi) ve bunların sarmalayıcı sınıf karşılıklarını (Integer, Float, Double gibi) arka planda 
+       akıllıca yönettiği anlamına gelir.
+  
+       Kotlin, Java ile uyumlu olduğundan, Java'nın ilkel tiplerini kullanırken, otomatik kutulama ve kutudan çıkarma işlemlerini yapar. Bu sayede Kotlin, ilkel tiplerle çalışırken yüksek performans sağlar, 
+       çünkü bu tipler JVM tarafından daha verimli bir şekilde işlenir. 
+       Örneğin, bir Int değişkeni tanımladığınızda ve bu değeri bir Java fonksiyonuna geçirdiğinizde, Kotlin otomatik olarak ilgili Java ilkel tipini kullanır. 
+       Bu işlem, Kotlin'in Int tipinin Java'nın int ilkel tipine doğrudan karşılık geldiği anlamına gelir.
+
+       Kotlin, Int? gibi nullable tipler söz konusu olduğunda, bu tipleri sarmalayıcı sınıflarla temsil eder. 
+       Bu durumda, Kotlin nullable bir Int için Java'nın Integer sınıfını kullanır. 
+       Bu işlem, arka planda otomatik olarak gerçekleşir ve kutulama (boxing) olarak bilinir. 
+       Kutulama, bir ilkel tipin sarmalayıcı sınıf örneğine dönüştürülmesi işlemidir. Kutudan çıkarma (unboxing) ise tam tersi bir işlem olup, 
+       sarmalayıcı sınıf örneğinin ilkel tipe dönüştürülmesidir.
+
+**********************************************************************
+
+SORU 6 - "Tip Güvenliği" (Type Safety) kavramını açıklayın.
+
+CEVAP: Tip güvenliği kavramı, özetle derleyicilerin derleme esnasında değişkenlerin doğrulanmasıdır. Tip güvenliği derleme aşamasında değişkenlere veya fonksiyonlara yanlış 
+       türde değerler atanamasını engeller ve böylece çoğu tür hatası derleme aşamasında tespit edilir ve düzeltilir.
+
+***********************************************************************
+
+SORU 7 - Bir değişkeni nullable yapmak için ne yapmalıyız?
+
+CEVAP: Kotin dilinde nullable bir değişken ? sembolü ile yapılabilir. Örnek olarak nullable integer bir değişken var number : Int? = null olarak yaratılabilir.
+       Bu değişkenimizin null olabileceğini belirtir.
+   
+       var normalString: String = "Merhaba, Kotlin!" // Bu değişkene null atanamaz.
+       normalString = null // Derleme hatası verir.
+
+       var nullableString: String? = "Merhaba, Kotlin!" // Bu değişkene null atanabilir.
+       nullableString = null // Geçerli.
+ 
+************************************************************************
+
+SORU 8 - "Null Güvenliği" (Null Safety) kavramını açıklayın.
+
+CEVAP: Kotlin'de Java'dan farklı olarak tür yapımızı ikiye ayırabiliriz. Nullable ve non-nullable. Yani bir değişkenimiz ya null olabilme ihtimaline sahiptir ya da
+       asla null olamazdır diyebiliriz. Bu bizlere şu şekilde avantaj sağlar:
+       
+       Null olamayan değerler, ileride de null değer alamayacağı için (compile time aşamasında hata verir) rahatlıkla kullanabileceğiz anlamına gelir.
+       (NullPointerException hatası almamak için) 
+
+       Bunun tam tersi de null olabilir değerlerimiz, bizlere bu değerin null olabilme ihtimalinden bahseder ve bizleri uyarır. Örneğin nullable bir değişkenimiz var ve bunu
+       kullanıcıya göstermemiz gerektiğini düşünelim. Böyle bir senaryoda kotlin bizleri uyarır ve null güvenliği uygulamamızı söyler. 
+
+       var userName String? = null
+       userName = "Melih"
+
+       bu değeri bir fonksiyona argüman olarak geçeceğimizi ve fonksiyon parametresinin non-nullable olduğunu farzedelim. Bu durumda ide bizi uyarır ve non nullable bir
+       değer beklediğini söyler. 
+
+       Çözüm olarak değişkenimizi bir if koşuluna sokabilir ve null olmadığı durum için methdoumuzu hatasız kullanabiliriz. Diğer bri yöntem olarak kotlin'in bize sağladığı
+       operatörler ile kodumuzu daha kısa yazabiliriz. Örneğin -> userName?.let{} ile değişkenimiz null değilse let bloğu içersinde devam edicektir anlamına gelir.
+
+************************************************************************
+
+SORU 9 - Bir değişkene null değer atanır ve tip belirtilmezse Kotlin bu değişkeni nasıl yorumlar?
+
+CEVAP:   Bir değişken tipi belirtilmez ve null olarak değer atanırsa Kotlin'de Nothing? olarak atanır.
+         
+         Nothing tipinin hiçbir örneği olamaz. Bu, kodunuzda belirli bir yerde bir değerin olamayacağını, yani bir işlevin normal bir şekilde sonuç döndürmeyeceğini 
+         (örneğin, bir istisna fırlatarak veya sonsuz bir döngüde çalışarak) açıkça belirtmek için kullanılır
+
+************************************************************************
+
+SORU 10 - İlkel bir değişkenin nullable olması ile null değer alamaması arasında bellek yönetimi açısından nasıl farklar vardır?
+
+CEVAP:    -İlkel türler ve onların nullable versiyonları arasındaki farklar,  Java ve Kotlin gibi dillerde, ilkel türler (primitive types) doğrudan değerleriyle saklanırken, 
+          nullable veya referans türleri (reference types) bir referans (pointer) aracılığıyla saklanır. 
+          Bu fark, bellek kullanımı ve işlem hızı üzerinde etkilidir.
+
+   
+          İlkel türler hafızada doğrudan değerliyle saklanır. Bu, onların bellekte sabit bir alan kapladığı ve bu alanın doğrudan değerini içerdiği anlamına gelir. 
+          Ayrıca ilkel türler stack üzerinde saklanır, bu da onlara erişimin çok hızlı olması demektir
+
+         -Nullable versiyonlar ve ilkel türlerin wrapper sınıfları (Integer, Float, Double, vb.) ise heap üzerinde saklanır.
+          Bu türler bir nesne olarak ele alındıklarından, onlara bir referans (pointer) üzerinden erişilir. 
+          Bir değişken nullable olarak tanımlandığında (örneğin, Kotlin'de Int?), bu değişken null değer alabilir hale gelir, 
+          bu da onun için ek bir null olup olmadığını kontrol etme mekanizmasının saklanması gerektiği anlamına gelir. 
+          Bu, ilkel türlere göre daha fazla bellek kullanımı ve erişim için biraz daha yavaş bir süreç demektir.
+
+************************************************************************
+
+SORU 11 - Nullable bir değişkenin bir değere sahip olması ile null olması arasında bellek yönetimi açısından nasıl bir fark vardır? 
+          Null değer almış bir değişken bellekte yer kaplamaz diyebilir miyiz?
+
+CEVAP:    Öncelikle null değer almış bir değişkenin bellekte yer kaplamadığı düşüncesi doğru değildir.
+          Bir değişkenin null olması, o değişkenin bir değer tutmadığı anlamına gelir, ancak bu değişkenin kendisi hâlâ bellekte bir yer kaplar
+
+          Bir nullable değişken bir değere sahip olduğunda, bu değer heap belleğinde saklanır. Değişken, bu değere bir referans (pointer) olarak işaret eder. 
+          Bu durumda, değişkenin kendisi için ayrılan bellek miktarı, değişkenin tipine ve sakladığı değerin boyutuna bağlı olarak değişir.
+
+          Bir nullable değişken null olduğunda, bu değişkenin herhangi bir değere işaret etmediği anlamına gelir. 
+          Ancak, değişkenin kendisi hâlâ bellek adresi veya referans bilgisi gibi bir yapısal bilgi taşır. 
+          Bu, değişkenin null olmasının bellekte hiçbir yer kaplamadığı anlamına gelmez.
+	  Değişken için bellekte bir miktar alan ayrılır, ancak bu alan bir değer değil, null durumunu işaret eden bir referanstır.
+
+
+
+         ÖNEMLİ NOT:
+         Bellek Ayak İzi: 
+         Bir değişken değer tuttuğunda, bellek ayak izi hem değişkenin referans bilgisini hem de tuttuğu değeri kapsar. 
+         Null için, sadece değişkenin referans bilgisini saklamak için minimum bir bellek ayak izi gereklidir. 
+         Bu, genellikle bir pointer boyutundadır ve platforma veya JVM'in çalıştığı sistem mimarisine (32-bit veya 64-bit) bağlıdır.
+
+         Optimizasyon: Modern sanal makineler ve derleyiciler, null değerleri ve nullable değişkenleri yönetirken bellek kullanımını optimize etmek 
+         için çeşitli teknikler kullanabilir. Ancak temel prensip, bir değişkenin null olması durumunda bile, 
+         değişkenin kendisi için bir miktar bellek ayrılması gerektiğidir.
+
+****************************************************************************
+
+SORU 12 - Nullable bir değişkenle çalışırken hangi operatörleri kullanırız? 
+          Bu operatörlerin kullanım farkları nelerdir? Hangisini ne zaman kullanmak daha anlamlıdır?
+
+
+CEVAP: 
+       Null Güvenli Çağrı Operatörü (?.) ->  Bir değişkenin null olma ihtimali olduğunda ve bu değişken üzerinde bir işlem yapmak istediğinizde kullanılır.
+                                             Eğer değişken null ise, herhangi bir işlem yapılmaz ve programınız hata vermez.
+                                             (val uzunluk = nullableString?.length)
+
+    
+       Elvis Operatörü (?:) -------------->  Bir nullable değişken null ise varsayılan bir değer sağlamak istediğinizde kullanılır. 
+                                             Bu, null durumlarını işlemek ve null olma durumunda bir yedek değer kullanmak için kullanışlıdır.
+                                             (val uzunluk = nullableString?.length ?: 0)
+
+
+       Kesin Olmayan Çağrı Operatörü (!!) > Bir değişkenin null olmadığından kesin olarak emin olduğunuz ve eğer null çıkarsa hata almayı tercih ettiğiniz durumlarda kullanılır. 
+                                            Ancak risklidir ve mümkün olduğunca kaçınılmalıdır. (val uzunluk = nullableString!!.length)
+
+
+       Güvenli Dönüşüm Operatörü (as?) ---> Bir nesnenin belirli bir türe dönüştürülmesi gerektiğinde, ancak dönüşümün başarısız olma ihtimali olduğunda kullanılır. 
+                                            Bu, tür dönüşüm hatalarını önlemek için güvenli bir yoldur. (val aNumber: Int? = nullableString as? Int)
+       
+
+
+************************************************************************* END
