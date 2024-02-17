@@ -1,0 +1,120 @@
+SORU 1 - "İşaretsiz" (Unsigned) değişkenler ne demektir? İşaretli olanlarla aralarındaki fark nedir?
+
+CEVAP:    Kotlin'de "işaretsiz" (unsigned) değişkenler, yalnızca pozitif değerler veya sıfırı içerebilen sayısal veri türleridir. 
+          Bu türler, işaretli (signed) sayısal türlerin aksine, negatif değerleri temsil edemezler. 
+		
+	  UByte: İşaretsiz 8-bit tam sayı (0 ile 255 arası değerler).
+	  UShort: İşaretsiz 16-bit tam sayı (0 ile 65,535 arası değerler).
+	  UInt: İşaretsiz 32-bit tam sayı (0 ile 4,294,967,295 arası değerler).
+	  ULong: İşaretsiz 64-bit tam sayı (0 ile 18,446,744,073,709,551,615 arası değerler).
+
+	  İşaretli değişkenler negatif, pozitif değerleri ve sıfırı temsil edebilirler. Bu, işaretli bir değişkenin bit temsiline bir işaret biti (genellikle en sol bit) eklenmesiyle sağlanır. 
+          İşaret biti 0 ise değer pozitiftir (veya sıfır), 1 ise değer negatiftir.
+
+          İşaretsiz değişkenler sadece pozitif değerleri ve sıfırı temsil ederler. 
+          İşaret biti olmadığı için, aynı bit uzunluğunda daha büyük pozitif değerleri temsil edebilirler
+
+
+*********************************************************************************************************
+
+SORU 2 - "İşaretsiz" değişkenler nasıl bir sınıf yapısında tutulurlar? Bu neden önemlidir?
+
+CEVAP:   Kotlin'de işaretsiz değişkenler (UByte, UShort, UInt, ULong), standart işaretli türler (Byte, Short, Int, Long) gibi yerel (primitive) türler olarak değil, wrapper sınıflar olarak tutulurlar. 
+	 Bu, Kotlin'in JVM üzerinde çalıştığı ve JVM'in işaretsiz türleri doğrudan desteklemediği gerçeğinden kaynaklanır. 
+	 İşaretsiz türler, Kotlin'in standart kütüphanesinde yer alan ve işaretli türlerin üzerine inşa edilmiş özel sınıflardır. 
+	 Bu sınıflar, işaretsiz türler için gerekli olan ek işlevselliği ve metotları sağlar.
+
+	 
+	 Kotlin'de işaretsiz değişkenlerin sınıf yapısında tutulması, tip güvenliğini artırır, 
+	 JVM ve diğer platformlarla uyumluluğu sağlar, genişletilebilirliği ve fonksiyonelliği destekler, 
+	 platformlar arası çalışabilirliği mümkün kılar ve performans optimizasyonlarına imkan tanır.
+
+*********************************************************************************************************
+
+SORU 3 - "İşaretsiz" değişkenlerin harf gösterimi nasıldır?
+
+CEVAP:    UByte: İşaretsiz 8-bit tam sayı için "U" harfi ile. Örneğin, val uByteVal: UByte = 255u
+	  UShort: İşaretsiz 16-bit tam sayı için "U" harfi ile. Örneğin, val uShortVal: UShort = 65535u
+	  UInt: İşaretsiz 32-bit tam sayı için "U" harfi ile. Örneğin, val uIntVal: UInt = 4294967295u
+	  ULong: İşaretsiz 64-bit tam sayı için "U" harfi ile. Örneğin, val uLongVal: ULong = 18446744073709551615uL
+
+
+
+*********************************************************************************************************
+
+SORU 4 - "val a1 = 42u ve val a2 = 0xFFFF_FFFF_FFFFu" değişkenlerin tipleri ne olur? Neden?
+
+CEVAP:  val a1 = 42u
+	Burada u kullanıldığı için ve değer UInt aralığında olduğundan, a1'in türü UInt olarak çıkarılacaktır.
+
+	val a2 = 0xFFFF_FFFF_FFFFu
+	bu değer UInt türünün maksimum değerini aşar çünkü UInt maksimum 0xFFFFFFFF (yaklaşık 4.29 milyar) değerine sahiptir. Bu sabit, ULong türünde sığabilecek bir büyüklüğe sahiptir 
+        ve sonunda u harfi kullanıldığı için Kotlin tarafından işaretsiz olarak değerlendirilir.
+
+*********************************************************************************************************
+
+SORU 5 - İşaretsiz" "Long" harf gösterimi nasıl yapılır?
+
+CEVAP:  val unsignedLong = 123456789UL
+	Bu gösterim, sabitin ULong türünde olduğunu açıkça belirtir. U işaretsiz türleri temsil ederken, L (veya l) Long türü için kullanılır
+
+
+
+*********************************************************************************************************
+
+SORU 6 - "İşaretsiz" değişkenlerin kullanım amaçları nelerdir?
+
+CEVAP:    1) Pozitif Sayı Sınırlamaları --> Bazı durumlar, yalnızca pozitif sayıların mantıklı olduğu senaryoları içerir, örneğin, bir dizinin boyutu, insan yaşları veya sayım işlemleri vs.
+	  2) Bit Düzeyinde İşlemler --> Donanım ve alçak seviye programlamada sıkça yapılan bit düzeyinde işlemler, genellikle negatif değerlerin anlamsız olduğu durumlar için işaretsiz türleri gerektirir. 
+	  3) Büyük Sayısal Değerler --> Örneğin, 32-bit bir Int yerine 32-bit bir UInt kullanarak, iki kat daha büyük maksimum bir pozitif değere erişilebilir.
+	  4) Performans Optimizasyonu -->  Bazı durumlarda, işaretsiz türlerin kullanımı performans iyileştirmelerine yol açabilir. Özellikle, donanım seviyesinde ve optimize edilmiş algoritmaların geliştirilmesinde, işaretsiz türler daha verimli olabilir.
+	  5) Sayısal Doğruluk ve Güvenlik -->  İşaretsiz türler, sayısal işlemlerde doğruluğu ve güvenliği artırabilir. Negatif değerlerin yanlışlıkla kullanılmasını engelleyerek, hataların önüne geçilmesine yardımcı olur.
+
+*********************************************************************************************************
+
+
+SORU 7 - İşaretsiz" değişkenlerle yapılan matematiksel işlemlerde, özellikle büyük sayılarla çalışırken karşılaşılabilecek taşma (overflow) ve taşma olmaması (underflow) durumları için Kotlin nasıl bir yönetim sağlar?
+
+CEVAP:  İşaretsiz türlerdeki işlemler, taşma durumunda otomatik olarak sarar (wrap around), yani maksimum değeri aşan bir değer en düşük değere döner ve tersi durumda da geçerlidir.
+
+	1) Standart İşlemler: Kotlin'de işaretsiz türlerle yapılan standart matematiksel işlemler (toplama, çıkarma, çarpma, bölme), taşma oluştuğunda değerleri otomatik olarak sarar. 
+           Bu, işlemlerin sonucunun türün sınırları içinde kalmasını sağlar ancak beklenmeyen sonuçlara yol açabilir
+
+	2) Taşmayı Kontrol Edici İşlevler: Kotlin, işlemler sırasında taşma olup olmadığını kontrol etmek için özel işlevler sunar. Bu işlevler (plus, minus, times, div gibi) taşma oluştuğunda bir hata fırlatmaz, 
+	   ancak taşma olasılığını göz önünde bulundurarak daha güvenli bir şekilde işlem yapmanızı sağlar.
+
+	3) Taşmayı Önleyici İşlevler: Kotlin 1.3 ile tanıtılan işaretsiz türler için, standart kitaplıkta taşmayı önlemeye yönelik işlevler (örneğin, UInt.overflowAdd(), UInt.overflowSubtract() gibi) bulunmamaktadır. 
+	   Bunun yerine, programcıların taşma durumlarını manuel olarak yönetmeleri ve bu tür durumları önlemek için kendi mantıklarını geliştirmeleri beklenir.
+
+*********************************************************************************************************
+
+SORU 8 - "İşaretsiz" değişkenlerin sınırlamaları nelerdir?
+
+CEVAP:    1) JVM ve Diğer Platformlarla Uyumluluk: Kotlin, JVM üzerinde çalıştığı için ve JVM doğrudan işaretsiz türleri desteklemez, 
+	     bu durum bazı uyumluluk sorunlarına neden olabilir. Kotlin'deki işaretsiz türler, alt seviyede işaretli türler üzerine inşa edilmiştir ve bu, 
+	     Java kodu ile etkileşimde bazı ek dönüşümlerin gerekliliğini doğurabilir.
+
+	  2) Java ile Entegrasyon: Kotlin'deki işaretsiz türler, Java'da doğrudan bir karşılığı olmayan wrapper sınıflar olarak temsil edilir. 
+             Bu, Kotlin ve Java arasında kod paylaşımı yapıldığında uyumluluk sorunlarına yol açabilir. Örneğin, bir Kotlin kütüphanesinde işaretsiz türler kullanılıyorsa ve 
+	     bu kütüphane Java'dan çağrılıyorsa, uygun dönüşüm işlemlerinin manuel olarak yapılması gerekebilir.
+
+	   3) Performans Maliyetleri: İşaretsiz türlerin kullanımı, bazı durumlarda wrapper sınıfların kullanımı nedeniyle hafif bir performans maliyetine neden olabilir. 
+	      Bu, özellikle yüksek performans gerektiren uygulamalarda göz önünde bulundurulmalıdır.
+
+
+*********************************************************************************************************
+
+SORU 9 - "İşaretsiz" değişken türleri (UInt, ULong vs.) kullanırken, Java API'leri ile uyumluluk konusunda ne gibi sorunlar olabilir? Bunları çözmek için neler yapabilirsiniz?
+
+CEVAP:    Uyumsuzluğun temel nedeni, Java'nın doğrudan işaretsiz türleri desteklememesidir.
+	  
+ 	  ÇÖZÜMLER: 
+
+	  Manuel Dönüşüm Yapma -> Örneğin, UInt değerini long türüne dönüştürerek Java tarafında kullanabilirsiniz. Bu, değer aralığı sorunlarını çözebilir ancak dikkatli olunmalıdır çünkü bu dönüşüm bazı değer kayıplarına neden olabilir.
+
+	  Sarmalayıcı Sınıflar Oluşturma -> Karmaşık entegrasyon senaryolarında, işaretsiz türleri içeren ve Java türlerine otomatik dönüşüm yapan sarmalayıcı (wrapper) sınıflar oluşturabilirsiniz.
+	
+	  Uzantı (Extension) Fonksiyonları Kullanma: Kotlin'de Java API'leri ile daha uyumlu hale getirmek için extension fonksiyonları yazabilirsiniz. Bu fonksiyonlar, işaretsiz türleri işaretli türlere dönüştürme ve tersi işlemleri kolaylaştırabilir  
+
+
+*********************************************************************************************************END
