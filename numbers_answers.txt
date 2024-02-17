@@ -1,0 +1,265 @@
+SORU 1 - Kaç farklı tipte "number" sınıfı miras alan "alt sınıf" (child class) vardır? Bunların değer aralıkları neden önemlidir?
+
+CEVAP:   Number sınıfını miras alan alt sınıflar:
+
+         1-Int    (32-bit tam sayı. Değer aralığı -2^31 ile 2^31-1 arasındadır.)
+         2-Long   (64-bit tam sayı. Değer aralığı -2^63 ile 2^63-1 arasındadır.)
+         3-Byte   (8-bit tam sayı. Değer aralığı -128 ile 127 arasındadır.)
+         4-Short  (16-bit tam sayı. Değer aralığı -32,768 ile 32,767 arasındadır.)
+         5-Float  (32-bit kayan nokta sayı. IEEE 754 kayan nokta sayıları standardını takip eder.)
+         6-Double (64-bit kayan nokta sayı. IEEE 754 kayan nokta sayıları standardını takip eder.)
+
+         Her bir sayı türünün değeri önemlidir. Çünkü bellekte ona uygun yer kaplar.
+
+************************************************************************************************
+
+SORU 2 - Eğer bir değişkene tip belirtimi yapılmaz ve bir değer atanırsa, Kotlin tip çıkarımını nasıl yapar?
+
+CEVAP:   Kotlin'de bir değişkene tip belirtimi yapılmadan değer atanırsa, Kotlin derleyicisi bu değere bakarak değişkenin tipini otomatik olarak çıkarır.
+         Buna Tip Çıkarımı (Type-Inference) denir.
+
+************************************************************************************************
+
+SORU 3 - Float değişken oluştururken F ve f harfleri varken, Long değişken oluştururken neden küçük l harfi yoktur?
+
+CEVAP:   Float tipi için hem büyük F hem de küçük f harfi kullanılabilirken, Long tipi için yalnızca büyük L harfinin kullanılmasının sebebi, 
+         küçük l harfinin sayı 1 ile karıştırılma ihtimalidir.
+         Bu durum, kodun okunabilirliğini olumsuz etkileyebilir.
+
+
+************************************************************************************************
+
+SORU 4 - Tek duyarlıklı (Single precision) ve Çift duyarlıklı (Double precision) kavramlarını açıklayın.
+
+
+CEVAP:   Tek duyarlıklı kayan noktalı sayılar, 32 bit (4 byte) bellek kullanır. Bu, sayının bir bölümü için 23 bit mantissa (veya significand), 
+         8 bit üs (exponent), ve 1 bit işaret (sign) biti olmak üzere dağıtılır. Tek duyarlıklı sayılar, genellikle daha az hassas işlemler için kullanılır, 
+         nispeten daha az bellek alanı kaplar ve işlem hızı daha yüksektir. Ancak, hassasiyet sınırlamaları nedeniyle, çok küçük veya çok büyük değerlerle 
+         çalışırken yuvarlama hataları daha belirgin olabilir.
+
+         Kotlin'de Float veri türü, tek duyarlıklı kayan noktalı sayıları temsil eder. 
+         Bir Float değişkeni tanımlarken sayının sonuna f veya F eklenir (örneğin, val pi: Float = 3.14f).
+
+
+         Çift duyarlıklı kayan noktalı sayılar, 64 bit (8 byte) bellek kullanır. Bu, sayının bir bölümü için 52 bit mantissa, 11 bit üs, ve 1 bit işaret biti olmak üzere dağıtılır. 
+         Çift duyarlıklı sayılar, daha yüksek hassasiyet gerektiren hesaplamalar için tercih edilir. Daha geniş mantissa, daha fazla sayısal değerin doğru bir şekilde 
+         temsil edilmesini sağlar, bu da özellikle bilimsel hesaplamalar ve mühendislik uygulamalarında önemlidir.
+
+	 Kotlin'de Double veri türü, çift duyarlıklı kayan noktalı sayıları temsil eder. Bir Double değişkeni tanımlarken sayı doğrudan yazılabilir, 
+         sonuna ekstra bir harf eklemeye gerek yoktur (örneğin, val e: Double = 2.7182818284)
+
+
+************************************************************************************************
+
+SORU 5 - Double ve Float değişkenlerle çalışırken ondalık ayıracı olarak hangi işaretler kullanılır? Bu ayıraçların kullanımında nelere dikkat etmek gerekir?
+
+CEVAP:   Double ve Float değişkenlerle çalışırken, ondalık ayıracı olarak nokta (.) işareti kullanılır. Bu, Kotlin dahil olmak üzere çoğu programlama dilinde standarttır. 
+         Örneğin, bir Float veya Double değişkenine değer atarken, ondalık kısmı belirtmek için nokta kullanılır (3.14f, 2.7182818284 gibi)
+
+         Farklı yerel ayarlar (locales) ondalık ayıracı olarak farklı karakterler kullanabilir. Örneğin, birçok Avrupa ülkesinde ondalık ayıracı olarak virgül (,) kullanılırken, programlama dillerinde genellikle nokta (.) kullanılır. 
+         Programlama yaparken, ondalık ayıracı olarak her zaman nokta kullanılmalıdır, çünkü bu uluslararası standarttır ve kodun doğru çalışmasını sağlar.
+
+         Fakat sunucudan , ile ayrılmış bir veri gelme ihtimali göz önünde bulundurulup ona uygun ayrımlar yazılmalıdır. Aynı şekilde ayrımlar yapıldıktan sonra
+         ülke bazlı kullanıcıları uygun formatta tekrar gösterilmelidir.
+
+************************************************************************************************
+
+SORU 6 - Double ve Float değişkenler ondalık kısımda kaç basamağa kadar işlem yaparlar? 
+         Bu sınırın üzerinde gelen ondalık bilgileri için nasıl davranırlar? Hangi durumlar için Float ve hangi durumlar için Double kullanılmalıdır?
+
+CEVAP:   Float: Tek duyarlıklı Float veri türü, yaklaşık 6-7 basamak ondalık hassasiyete sahiptir. Bu, Float ile yapılan hesaplamalarda, 
+         yedinci basamaktan sonra olan değerlerde yuvarlama hatalarının ortaya çıkabileceği anlamına gelir.
+
+         Double: Çift duyarlıklı Double veri türü, yaklaşık 15-16 basamak ondalık hassasiyete sahiptir. Bu daha yüksek hassasiyet, 
+         Double kullanıldığında on altıncı basamaktan sonra olan değerlerde yuvarlama hatalarının ortaya çıkabileceği anlamına gelir.
+
+         Float ve Double arasındaki seçim, uygulamanın gereksinimlerine, özellikle hesaplama hassasiyeti ve bellek kullanımı dengesine bağlıdır. 
+         Genel kural olarak, eğer özel bir neden yoksa (örneğin, bellek kullanımını en aza indirme ihtiyacı), daha yüksek hassasiyet sağladığı için Double kullanımı tercih edilir.
+
+************************************************************************************************
+
+SORU 7 - Ondalık(Decimal), Onaltılık (Hexadecimal) ve İkilik (Binary) değişkenleri Kotlin'de nasıl tanımlayabilirsiniz?
+
+CEVAP:   ONDALIKLIM (DECIMAL
+         val decimalInt: Int = 123
+         val decimalLong: Long = 123L
+	 val decimalFloat: Float = 123.45f
+	 val decimalDouble: Double = 123.45		
+
+         ONALTILIK(HEXADECIMAL)
+         val hexInt: Int = 0x1A3
+	 val hexLong: Long = 0x1A3L	
+
+         İKİLİK(BINARY)
+	 val binaryInt: Int = 0b1011
+	 val binaryLong: Long = 0b1011L		
+
+************************************************************************************************
+
+SORU 8 - Sekizlik (Octal) değişkenler Java'da nasıl tanımlanır? Kotlin'de Sekizlik değişken tanımlanabilir mi?
+
+CEVAP:   Sekizlik (Octal): Java'da sekizlik sayılar bir 0 ile başlar. int octalNumber = 0347;
+         Java, sekizlik sayıları doğrudan tanımlama özelliğine sahipken, Kotlin bu özelliği sunmaz. Kotlin'de sekizlik bir değeri kullanmak isterseniz, onu ondalık veya 
+         onaltılık bir değere dönüştürmeniz veya String olarak tanımlayıp ardından uygun bir sayıya çevirmeniz gerekecektir. 
+         Kotlin, modern programlama dillerinin tasarım eğilimlerini takip ederek, daha az kullanılan veya karışıklığa yol açabilecek özellikleri kısıtlama yönünde 
+         bir yaklaşım benimsemiştir.
+
+************************************************************************************************
+
+SORU 9 - Geleneksel Notasyon" (Conventional Notation) gösterimi nasıl yapılır?
+
+CEVAP:   Ondalık Sayılar için: 123.45, 0.678, 1000.01 gibi. Burada sayılar, ondalık noktasını kullanarak doğrudan yazılır.
+         Tam Sayılar için: 25, -103, 9876 gibi. Bu örnekte sayılar, herhangi bir ek simge veya gösterim olmaksızın doğrudan ifade edilir.
+
+         Geleneksel notasyonda sayılar, ondalık sistemdeki pozisyonlarına göre değer kazanır; her basamak sağa veya sola doğru hareket ettikçe değeri on kat artar veya azalır. 
+         Bu notasyon, sayıların günlük hayatta anlaşılmasını ve kullanılmasını kolaylaştırır çünkü çoğu insan bu sistemle büyür ve onu intuitif olarak anlar.
+
+
+************************************************************************************************
+
+SORU 10 - Sayısal değişkenlerde alt çizgi (underscore) nasıl kullanılır? Kotlin bunu nasıl yorumlar?
+
+CEVAP:    Kotlin'de sayısal değerlerde alt çizgi (_) kullanımı, büyük sayıların okunabilirliğini artırmak için tasarlanmıştır. 
+          Alt çizgiler, sayısal literaller içinde istenildiği kadar kullanılabilir ve sayıların gruplandırılmasına yardımcı olur. 
+          Bu, özellikle çok büyük veya belirli bir biçime sahip sayıları (örneğin, kredi kartı numaraları, telefon numaraları, banka hesap numaraları) gösterirken faydalıdır.
+          Kotlin derleyicisi, bu alt çizgileri görmezden gelir ve sayısal değerleri alt çizgiler olmadan hesaplar.
+
+          val oneMillion = 1_000_000
+	  val creditCardNumber = 1234_5678_9012_3456
+	  val socialSecurityNumber = 999_99_9999
+	  val hexBytes = 0xFF_EC_DE_5E
+	  val bytes = 0b11010010_01101001_10010100_10010010
+
+          !! DİKKAT EDİLMESİ GEREKENLER !!
+          -Alt çizgiler, sayının başında veya sonunda kullanılamaz.
+          -Ondalık noktadan hemen önce veya sonra alt çizgi kullanılamaz.
+	  -Sayı türü belirteçlerinden (L, F, b, x veya B) hemen önce alt çizgi kullanılamaz.
+
+	  val incorrect = 1_ // Hatalı
+	  val incorrectDecimal = 123.4_567 // Hatalı
+	  val incorrectSuffix = 123_L // Hatalı
+       
+************************************************************************************************
+
+SORU 11 - == ile neyi karşılaştırırız? === ile neyi karşılaştırırız?
+
+CEVAP:    == operatörü, iki değişkenin veya ifadenin değerlerinin eşit olup olmadığını kontrol eder. Kotlin'de == operatörü, Java'daki equals() metodunun işlevselliğine sahiptir; 
+          yani, bu operatör iki nesnenin içeriğinin eşit olup olmadığını kontrol eder. Kotlin derleyicisi, == kullanıldığında otomatik olarak equals() metodunu çağırır. 
+	  Bu nedenle, == ile yapılan karşılaştırmalar, nesnelerin içerik eşitliğine dayanır.
+	  
+	  val a = "Kotlin"
+	  val b = "Kotlin"
+	  println(a == b) // true, çünkü içerikleri eşit
+
+	  === operatörü, iki değişkenin veya ifadenin aynı nesneye referans olup olmadığını (yani bellekteki aynı konumu işaret edip etmediklerini) kontrol eder. 
+          Bu, Java'daki == operatörüne benzer bir işlevsellik sağlar. === ile yapılan karşılaştırmalar, referans eşitliğine dayanır; 
+          yani, iki değişkenin tam olarak aynı nesneyi gösterip göstermediğini kontrol eder.
+
+	  val c = "Kotlin"
+	  val d = c
+	  println(c === d) // true, çünkü c ve d aynı nesneye referans verir
+
+
+************************************************************************************************
+
+SORU 12 - === operatörü ile karşılaştırma yaparken Byte değer aralığı neden önemlidir? Kotlin bu aralığa göre neden özel bir davranış sergiler?
+
+CEVAP:    Kotlin (ve Java) Byte değer aralığı (-128 ile 127 arası) için özel bir davranış sergiler çünkü bu aralıktaki değerler için kutulama (boxing) işlemi sırasında aynı nesneleri yeniden kullanma optimizasyonu yapılır. 
+          Bu, Java'nın Integer Cache mekanizması ile aynı prensiptir. Bu optimizasyon, bellek kullanımını azaltmak ve performansı artırmak için yapılmıştır.
+
+
+         val a: Int = 100
+	 val boxedA: Int? = a
+ 	 val anotherBoxedA: Int? = a
+
+	 val b: Int = 10000
+	 val boxedB: Int? = b
+	 val anotherBoxedB: Int? = b
+
+	 println(boxedA === anotherBoxedA) // true
+	 println(boxedB === anotherBoxedB) // false
+
+************************************************************************************************
+
+SORU 13 - Sayısal değişkenlerde hangi matematiksel operatörler kullanılabilir?
+
+CEVAP:    Toplama (+)
+  	  Çıkarma (-)
+	  Çarpma (*)
+	  Bölme (/)
+	  Modülüs (%)
+	  Arttırma (++)
+	  Azaltma (--)
+          
+
+************************************************************************************************
+
+SORU 14 - Sayısal değişkenlerde hangi karşılaştırma operatörleri kullanılabilir?
+
+CEVAP: Büyüktür (>)
+       Küçüktür (<) 
+       Eşittir (==)
+       Eşit değildir (!=)
+       Büyük eşittir (>=)
+       Küçük eşittir (<=)
+
+************************************************************************************************
+
+
+SORU 15 - Bit düzeyinde operatörler (Bitwise operators) nelerdir? Ne amaçla kullanılır? Kotlin'de bunları nasıl kullanabilirsiniz?
+
+CEVAP:   Bit düzeyinde operatörler, tam sayıların bit düzeyinde işlemlerini gerçekleştirmek için kullanılır. 
+         Bu operatörler, genellikle düşük seviyeli programlama, donanım kontrolü, veri şifreleme ve performansı kritik uygulamalarda önemli rol oynar. 
+         Kotlin'de bit düzeyinde işlemler yapmak için kullanılan operatörler şunlardır:	
+
+         VE (and) ---> val result = 12 and 5 // Sonuç: 4		
+	 VEYA (or) --> val result = 12 or 5 // Sonuç: 13
+	 ÖZEL VEYA (XOR, xor) --> val result = 12 xor 5 // Sonuç: 9
+	 DEĞİL (NOT, inv()) --> val result = 12.inv() // Sonuç: -13 (12'nin tüm bitleri tersine çevrildi)
+	 SOLA KAYDIR (shl) --> val result = 1 shl 2 // Sonuç: 4 (0001'in 2 bit sola kaydırılması)
+	 SAĞA KAYDIR (shr) --> val result = 4 shr 2 // Sonuç: 1 (0100'ün 2 bit sağa kaydırılması)
+	 İŞARETSİZ SAĞA KAYDIR (ushr) --> val result = (-4).ushr(2) // Sonuç bağlamına bağlı
+
+************************************************************************************************
+
+SORU 16 - Kotlin'de büyük sayılarla çalışırken hangi ek türlerden yararlanılır ve bu türlerin sınırları nelerdir?
+
+CEVAP:    Kotlin'de, standart sayısal türlerin (Int, Long, Float, Double vb.) ötesinde, büyük sayılarla çalışmak için BigInteger ve BigDecimal türleri kullanılabilir
+ 	
+ 	  BigInteger, çok büyük tam sayıları temsil etmek için kullanılır. Bu tür, Int veya Long türlerinin saklayabileceği değerlerin ötesindeki değerleri saklayabilir
+
+	  val bigInt1 = BigInteger("123456789012345678901234567890")
+	  val bigInt2 = BigInteger("987654321098765432109876543210")
+	  val sum = bigInt1 + bigInt2
+
+	  BigDecimal, çok büyük veya çok küçük ondalık sayılarla, yüksek hassasiyet gerektiren hesaplamalarla çalışmak için kullanılır. 
+          Finansal hesaplamalar, hassas bilimsel hesaplamalar gibi alanlarda tercih edilir.
+
+ 	  val bigDecimal1 = BigDecimal("123456789.123456789123456789")
+	  val bigDecimal2 = BigDecimal("987654321.987654321987654321")
+	  val sum = bigDecimal1 + bigDecimal2
+
+
+	  SINIRLAR:
+ 	  Her iki türün de teorik sınırları, kullanılan bellek miktarı ve işlemcinin işleyebileceği maksimum değerlerle belirlenir. 
+          Bu türlerle çalışırken, çok büyük sayılar kullanıldığında performans düşüklüğü yaşanabilir. 
+          BigInteger ve BigDecimal kullanımı, standart sayısal türlerin yetersiz kaldığı, çok büyük sayılarla veya yüksek hassasiyet gerektiren hesaplamalarla çalışıldığında idealdir
+
+************************************************************************************************
+
+SORU 17 - Double ve Float değişkenler kullanılırken "yuvarlama" davranışı nasıldır? Bu nasıl değiştirilebilir?
+
+CEVAP:    Float ve Double türleri, varsayılan olarak yuvarlama işlemlerinde "en yakın sayıya" veya "çift sayıya" yuvarlama yaparlar. 
+          Bu, yuvarlama işleminin sonucunun, temsil edilebilecek en yakın değere yuvarlanması anlamına gelir.
+
+	  val number = BigDecimal("2.345")
+	  val rounded = number.setScale(2, RoundingMode.HALF_UP) // 2.35 olarak yuvarlar
+
+	  HALF_UP: En yakın komşuya yuvarla, .5 durumlarında yukarı.
+	  HALF_DOWN: En yakın komşuya yuvarla, .5 durumlarında aşağı.
+	  HALF_EVEN: En yakın komşuya yuvarla, .5 durumlarında çift olana (Banker's rounding).
+	  UP: Sıfırdan uzaklaşacak şekilde yuvarla.
+	  DOWN: Sıfıra doğru yuvarla.
+
+************************************************************************************************END
+	
